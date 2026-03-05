@@ -7,7 +7,7 @@ $passwordHashata = password_hash($_POST["password"], PASSWORD_DEFAULT);
 $pdo = new PDO("mysql:host=localhost;dbname=utenti", "root", "");
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$sql = "INSERT INTO utenti (mail, password) VALUES (:mail, :password);";
+$sql = "INSERT INTO utente (mail, password) VALUES (:mail, :password);";
 
 $stm = $pdo->prepare($sql);
 
