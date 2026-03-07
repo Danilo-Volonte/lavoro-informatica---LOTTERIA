@@ -13,6 +13,7 @@ $is_logged_in = isset($_SESSION['id_utente']);
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +47,12 @@ $is_logged_in = isset($_SESSION['id_utente']);
             align-items: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        .header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
 
         /* BOTTONI GENERALI */
         .btn {
@@ -59,10 +65,18 @@ $is_logged_in = isset($_SESSION['id_utente']);
             transition: all 0.3s ease;
             border: 2px solid transparent;
         }
-        .btn:hover { background-color: #e2e8f0; }
+
+        .btn:hover {
+            background-color: #e2e8f0;
+        }
 
         /* CONTENITORE PRINCIPALE */
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
 
         .section-title {
             display: inline-block;
@@ -79,17 +93,33 @@ $is_logged_in = isset($_SESSION['id_utente']);
             background-color: var(--card-bg);
             padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
             border-top: 5px solid var(--primary);
         }
 
-        .form-container h2 { margin-top: 0; color: var(--primary); text-align: center; margin-bottom: 25px; }
+        .form-container h2 {
+            margin-top: 0;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-        .form-group { margin-bottom: 18px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
         .form-group input {
             width: 100%;
             padding: 10px;
@@ -99,7 +129,12 @@ $is_logged_in = isset($_SESSION['id_utente']);
             font-family: inherit;
             transition: border-color 0.2s;
         }
-        .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1); }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
 
         .btn-submit {
             background-color: var(--primary);
@@ -114,20 +149,43 @@ $is_logged_in = isset($_SESSION['id_utente']);
             transition: background-color 0.3s;
             margin-top: 10px;
         }
-        .btn-submit:hover { background-color: var(--primary-hover); }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
 
         /* LINK INFERIORI */
-        .links { margin-top: 25px; text-align: center; font-size: 0.9rem; }
-        .links a { color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s; }
-        .links a:hover { color: var(--accent); text-decoration: underline; }
+        .links {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .links a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
 
         /* RESPONSIVE */
         @media (max-width: 600px) {
-            .container { padding: 0 10px; }
-            .form-container { padding: 20px; }
+            .container {
+                padding: 0 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <header class="header">
@@ -160,17 +218,20 @@ $is_logged_in = isset($_SESSION['id_utente']);
 
                 <div class="form-group">
                     <label for="prezzoBiglietto">Prezzo del Biglietto (Crediti, 1-5)</label>
-                    <input type="number" id="prezzoBiglietto" name="prezzoBiglietto" placeholder="3" min="1" max="5" step="0.01" required>
+                    <input type="number" id="prezzoBiglietto" name="prezzoBiglietto" placeholder="3" min="1" max="5"
+                        step="0.01" required>
                 </div>
 
                 <div class="form-group">
                     <label for="bigliettiTotali">Numero Totale dei Biglietti</label>
-                    <input type="number" id="bigliettiTotali" name="bigliettiTotali" placeholder="100" min="1" step="1" required>
+                    <input type="number" id="bigliettiTotali" name="bigliettiTotali" placeholder="100" min="1" step="1"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label for="bigliettiVincenti">Numero dei Biglietti Vincenti</label>
-                    <input type="number" id="bigliettiVincenti" name="bigliettiVincenti" placeholder="10" min="1" step="1" required>
+                    <input type="number" id="bigliettiVincenti" name="bigliettiVincenti" placeholder="10" min="1"
+                        step="1" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Crea Lotteria</button>
@@ -183,4 +244,5 @@ $is_logged_in = isset($_SESSION['id_utente']);
     </div>
 
 </body>
+
 </html>
