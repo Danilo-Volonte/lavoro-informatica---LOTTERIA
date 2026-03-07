@@ -112,6 +112,8 @@ $avatar_path = !empty($utente['avatar']) && file_exists($utente['avatar']) ? $ut
         .status-badge { padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
         .status-open { background-color: #dcfce7; color: #166534; }
         .status-closed { background-color: #fee2e2; color: #991b1b; }
+        .btn-create-lottery { background-color: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; margin-top: 20px; }
+        .btn-create-lottery:hover { background-color: #d97706; }
     </style>
 </head>
 <body>
@@ -185,6 +187,11 @@ $avatar_path = !empty($utente['avatar']) && file_exists($utente['avatar']) ? $ut
                     Non hai ancora acquistato nessun biglietto. <a href="index.php" style="color: var(--primary); font-weight: bold;">Scopri le lotterie disponibili!</a>
                 </p>
             <?php endif; ?>
+
+            <form action="datiCreazioneLotteria.php" method="POST">
+                <input name="idUtente" value=<?php echo $id_utente; ?> type="hidden">
+                <button type="submit" class="btn-create-lottery">Crea Nuova Lotteria</button>
+            </form>
         </div>
     </div>
 </body>
