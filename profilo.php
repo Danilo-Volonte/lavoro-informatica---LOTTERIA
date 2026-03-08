@@ -292,7 +292,7 @@ $ha_avatar_custom = !empty($utente['avatar']);
                 </form>
 
                 <form action="visualizzaListaUtenti.php"> 
-                    <button type="submit" class="btn-create-lottery">Promuovi Admin</button>
+                    <button type="submit" class="btn-create-lottery">Visualizza Lista User</button>
                 </form>
             <?php endif; ?>
         </div>

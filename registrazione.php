@@ -19,7 +19,8 @@ $successo = "";
 $email_inserita = "";
 $nickname_inserito = "";
 $data_nascita_inserita = "";
-$ruolo_inserito = "user"; // valore di default
+// Il ruolo non è più preso dal form, è fisso per i nuovi iscritti
+$ruolo_inserito = "user"; 
 
 // Funzione validazione password
 function validaPassword($pwd) {
@@ -51,7 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_inserita = trim($_POST['email']);
         $nickname_inserito = trim($_POST['nickname']);
         $data_nascita_inserita = $_POST['data_nascita'];
-        $ruolo_inserito = $_POST['ruolo'];
+        
+        // FORZIAMO IL RUOLO: Qualsiasi registrazione pubblica crea un "user"
+        $ruolo_inserito = 'user'; 
         
         $password = $_POST['password'];
         $conferma_password = $_POST['conferma_password'];

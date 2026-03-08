@@ -1,5 +1,16 @@
 <?php
 session_start();
+
+// ==========================================
+// INCLUDIAMO LE LIBRERIE PHPMAILER
+// ==========================================
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 $errore = "";
 $successo = "";
 
@@ -27,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $scadenza = date('Y-m-d H:i:s', strtotime('+15 minutes'));
 
             // 4. Salviamo il token e la scadenza nel database
+            // ATTENZIONE: Assicurati che le colonne token_recupero e scadenza_token esistano in phpMyAdmin!
             $sql_update = "UPDATE utente SET token_recupero = :token, scadenza_token = :scadenza WHERE id_utente = :id_utente";
             $stmt_update = $pdo->prepare($sql_update);
             $stmt_update->execute([
@@ -35,43 +47,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':id_utente' => $utente['id_utente']
             ]);
 
-            // 5. Inviamo l'email con il link di recupero
-            $oggetto = "Recupero Password - Lotteria";
-            $intestazioni  = "MIME-Version: 1.0\r\n";
-            $intestazioni .= "Content-type: text/html; charset=UTF-8\r\n";
-            $intestazioni .= "From: sicurezza@lotteria.it\r\n";
+            // 5. Inviamo l'email con PHPMailer
+            $mail = new PHPMailer(true);
 
-            // Il link punterà a una nuova pagina (reset_password.php) passandogli il token nell'URL
-            $link_recupero = "http://localhost/tuacartella/reset_password.php?token=" . $token;
+            try {
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';                     
+                $mail->SMTPAuth   = true;                                   
+                
+                // I tuoi dati Gmail
+                $mail->Username   = 'progettolotteria@gmail.com';                     
+                $mail->Password   = 'gwrliaspoceztaop';                               
+                
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            
+                $mail->Port       = 587;                                    
 
-            $messaggio_email = "
-            <html>
-            <body>
-                <h2>Ciao " . htmlspecialchars($utente['nickname']) . ",</h2>
-                <p>Abbiamo ricevuto una richiesta per reimpostare la tua password.</p>
-                <p>Clicca sul pulsante qui sotto per crearne una nuova. <b>Il link scadrà tra 15 minuti.</b></p>
-                <br>
-                <a href='$link_recupero' style='background-color: #f59e0b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Reimposta Password</a>
-                <br><br>
-                <p><small>Se il bottone non funziona, copia e incolla questo link nel browser: <br> $link_recupero</small></p>
-                <p><small>Se non hai fatto tu questa richiesta, ignora questa email.</small></p>
-            </body>
-            </html>
-            ";
+                // Fix SSL per XAMPP
+                $mail->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
 
-            @mail($email, $oggetto, $messaggio_email, $intestazioni);
+                $mail->setFrom('progettolotteria@gmail.com', 'Lotterie Online Sicurezza');
+                $mail->addAddress($email, $utente['nickname']);     
 
-            // Mostriamo un messaggio di successo generico
-            $successo = "Se l'indirizzo email è registrato, riceverai a breve un link per reimpostare la password.";
-            
-        } else {
-            // NOTA DI SICUREZZA: Anche se l'email non esiste, mostriamo lo stesso messaggio 
-            // per evitare che gli hacker scoprano quali email sono registrate sul nostro sito!
-            $successo = "Se l'indirizzo email è registrato, riceverai a breve un link per reimpostare la password.";
+                $link_recupero = "http://localhost/ESERCIZI/lotteria/reset_password.php?token=" . $token;
+
+                $mail->isHTML(true);                                  
+                $mail->Subject = 'Recupero Password - Lotterie Online';
+                
+                $mail->Body = "
+                <html>
+                <body style='font-family: Arial, sans-serif; color: #333;'>
+                    <h2>Ciao " . htmlspecialchars($utente['nickname']) . ",</h2>
+                    <p>Abbiamo ricevuto una richiesta per reimpostare la tua password.</p>
+                    <p>Clicca sul pulsante qui sotto per crearne una nuova. <b>Il link scadrà tra 15 minuti.</b></p>
+                    <br>
+                    <a href='$link_recupero' style='background-color: #f59e0b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>Reimposta Password</a>
+                    <br><br>
+                    <p><small>Se il bottone non funziona, copia e incolla questo link nel browser: <br> $link_recupero</small></p>
+                    <p><small>Se non hai fatto tu questa richiesta, ignora questa email. La tua password rimarrà invariata.</small></p>
+                </body>
+                </html>
+                ";
+
+                $mail->send();
+            } catch (Exception $e) {
+                // Errore invio email
+                error_log("Errore invio mail di recupero: " . $mail->ErrorInfo);
+            }
         }
+        
+        // Mostriamo SEMPRE questo messaggio per sicurezza (Anti-hacker)
+        $successo = "Se l'indirizzo email è registrato, riceverai a breve un link per reimpostare la password.";
 
     } catch (PDOException $e) {
-        $errore = "Errore di connessione al database: " . $e->getMessage();
+        $errore = "Errore di connessione al database. Controlla di aver creato le colonne token_recupero e scadenza_token. Dettaglio: " . $e->getMessage();
     }
 }
 ?>
