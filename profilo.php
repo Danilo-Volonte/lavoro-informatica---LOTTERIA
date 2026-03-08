@@ -287,8 +287,12 @@ $ha_avatar_custom = !empty($utente['avatar']);
             <?php endif; ?>
 
             <?php if ($utente['ruolo'] === 'admin'): ?>
-                <form action="creaLotteria.php" method="GET"> 
+                <form action="creaLotteria.php"> 
                     <button type="submit" class="btn-create-lottery">Crea Nuova Lotteria</button>
+                </form>
+
+                <form action="visualizzaListaUtenti.php"> 
+                    <button type="submit" class="btn-create-lottery">Promuovi Admin</button>
                 </form>
             <?php endif; ?>
         </div>

@@ -224,15 +224,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="button" class="toggle-password" onclick="toggleVisibility('conferma_password', this)" title="Mostra/Nascondi">👁️</button>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label for="ruolo">Ruolo</label>
-                <select id="ruolo" name="ruolo" required>
-                    <option value="user" <?php if($ruolo_inserito === 'user') echo 'selected'; ?>>Giocatore (User)</option>
-                    <option value="admin" <?php if($ruolo_inserito === 'admin') echo 'selected'; ?>>Gestore (Admin)</option>
-                </select>
-            </div>
-
             <button type="submit" class="btn-submit">Registrati</button> 
         </form>
         

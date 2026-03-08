@@ -43,15 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($nome_inserito)) {
              $messaggio_errore = "Il nome della lotteria è obbligatorio.";
         } elseif ($prezzoBiglietto < 1 || $prezzoBiglietto > 5) {
-             $messaggio_errore = "Il prezzo del biglietto deve essere tra 1 e 5 crediti.";
+             $messaggio_errore = "Il prezzo del biglietto deve essere tra 1 e 5 crediti. ";
         } elseif ($bigliettiTotali <= 0) {
-             $messaggio_errore = "Il numero di biglietti totali deve essere maggiore di zero.";
+             $messaggio_errore = "Il numero di biglietti totali deve essere maggiore di zero. ";
         } elseif ($bigliettiVincenti <= 0 || $bigliettiVincenti > $bigliettiTotali) {
-             $messaggio_errore = "I biglietti vincenti devono essere > 0 e <= ai biglietti totali.";
+             $messaggio_errore = "I biglietti vincenti devono essere > 0 e <= ai biglietti totali. ";
         } elseif ($percentuale < 10) {
              $messaggio_errore = "La percentuale di biglietti vincenti deve essere almeno il 10% del totale.";
         } elseif (strtotime($dataFineFormattata) <= time()) {
-             $messaggio_errore = "La data e l'ora di fine lotteria devono essere nel futuro.";
+             $messaggio_errore = "La data e l'ora di fine lotteria devono essere nel futuro. ";
         } else {
             // Tutto corretto: salviamo!
             // data_inizio deve essere DATETIME come da database (Y-m-d H:i:s)
