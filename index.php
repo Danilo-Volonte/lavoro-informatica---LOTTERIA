@@ -6,6 +6,8 @@ try {
     $pdo = new PDO($conn_str, $conn_usr, $conn_psw);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    require_once 'estrazione_automatica.php';
+
     // Recupero lotterie aperte
     $sql = "SELECT id_lotteria, nome, prezzo_biglietto FROM lotteria WHERE aperta = 1 ORDER BY data_fine ASC";
     $stmt = $pdo->query($sql);
